@@ -92,10 +92,11 @@ PUBLIC_SITEMAP_PATHS = [
     "/charts",
 ]
 SEO_DEFAULTS = {
-    "title": "Charged Alpha Financial Media — Investing Videos, Stock Research & Market Tools",
+    "title": "Charged Alpha Frontier AI Financial Media — Stock Encyclopedia & Investing Videos",
     "description": (
-        "Charged Alpha Financial Media creates investing education, stock "
-        "comparison videos, earnings-driven company research, and market tools."
+        "Charged Alpha uses frontier AI models to analyze fresh stock earnings "
+        "data, building a frontier AI stock encyclopedia with investing education, "
+        "stock comparison videos, and market research tools."
     ),
     "robots": "index,follow,max-image-preview:large",
     "og_type": "website",
@@ -103,17 +104,19 @@ SEO_DEFAULTS = {
 }
 SEO_PAGE_META = {
     "/": {
-        "title": "Charged Alpha Financial Media — Investing Videos, Stock Research & Market Tools",
+        "title": "Charged Alpha Frontier AI Financial Media — Stock Encyclopedia & Investing Videos",
         "description": (
-            "Watch investing education, stock comparison videos, and a growing "
-            "stock encyclopedia powered by Charged Alpha's market research tools."
+            "A stock encyclopedia built with frontier AI financial media workflows. "
+            "Frontier AI models analyze fresh stock earnings data for current-data "
+            "investing education, stock comparisons, and market research videos."
         ),
     },
     "/shows": {
-        "title": "Charged Alpha Stock Library — Quarterly Stock Episodes",
+        "title": "Charged Alpha Stock Encyclopedia — Earnings Videos & Stock Research",
         "description": (
-            "Browse Charged Alpha's stock-first library with quarterly episode coverage, "
-            "ticker and quarter filters, and detail pages for each company."
+            "Browse Charged Alpha's frontier AI stock encyclopedia with quarterly "
+            "earnings videos, ticker filters, stock detail pages, and frontier "
+            "AI company research organized by quarter."
         ),
     },
     "/screener": {

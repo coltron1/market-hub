@@ -68,6 +68,20 @@
       border: 1px solid rgba(52,211,255,.35);
       box-shadow: 0 0 45px rgba(52,211,255,.18);
     }
+    .brand-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(52,211,255,.28);
+      background: rgba(8,15,32,.72);
+      color: #bae6fd;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
     .media-card {
       background: linear-gradient(180deg, rgba(17,24,39,.96), rgba(15,23,42,.96));
       border: 1px solid #1e293b;
@@ -328,16 +342,21 @@
       <img src="/static/assets/charged-alpha-logo.png" alt="Charged Alpha Financial Media logo" class="brand-logo-lg">
     </div>
 
-    <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white leading-tight mb-6">
+    <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white mb-6" style="line-height:1.08;padding-bottom:8px;">
       Charged Alpha<br>
-      <span style="background:linear-gradient(135deg,#34d5ff,#22d3ee,#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Financial Media</span>
+      <span style="background:linear-gradient(135deg,#34d5ff,#22d3ee,#fcd34d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Frontier AI Media</span>
     </h1>
 
-    <p class="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-      Investing education, stock research, and AI-powered market media built for people who want to understand the business behind the ticker.
+    <div class="brand-chip mb-5">
+      <span style="width:7px;height:7px;border-radius:50%;background:#22d3ee;box-shadow:0 0 16px rgba(34,211,238,.7);"></span>
+      Frontier AI models analyzing fresh earnings data
+    </div>
+
+    <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-4 leading-relaxed">
+      A stock encyclopedia built with frontier AI financial media workflows for investors who want fresh earnings data turned into clear company research.
     </p>
     <p class="text-base text-slate-500 max-w-3xl mx-auto mb-10 leading-relaxed">
-      Watch short investing lessons, stock comparison videos, and a growing stock encyclopedia covering earnings-driven breakdowns across the Russell 1000 and beyond. The research tools power the media; the media makes the research easier to use.
+      Frontier AI models analyze fresh stock earnings data, company fundamentals, and market context to create investing lessons, stock comparison videos, weekly earnings stories, surprise beats, stocks that beat but still dropped, and a growing stock encyclopedia across the Russell 1000 and beyond.
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -359,11 +378,11 @@
     <div class="flex flex-wrap justify-center gap-10 mt-16">
       <div class="text-center">
         <div class="stat-num text-3xl font-extrabold">Shorts</div>
-        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wide">Investing Concepts</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wide">Investing Education</div>
       </div>
       <div class="text-center">
-        <div class="stat-num text-3xl font-extrabold">1000+</div>
-        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wide">Russell 1000 Coverage Goal</div>
+        <div class="stat-num text-3xl font-extrabold">AI Models</div>
+        <div class="text-xs text-slate-500 mt-1 uppercase tracking-wide">Fresh Earnings Analysis</div>
       </div>
       <div class="text-center">
         <div class="stat-num text-3xl font-extrabold">Quarterly</div>
@@ -410,10 +429,10 @@
 <section id="media" class="py-24 px-6">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-14">
-      <p class="text-sm font-bold text-red-400 uppercase tracking-widest mb-3">Media First</p>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Watch the Research Become a Story</h2>
+      <p class="text-sm font-bold text-red-400 uppercase tracking-widest mb-3">Frontier AI Media</p>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Watch AI Turn Earnings Data Into Stories</h2>
       <p class="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed">
-        Charged Alpha turns live market data into educational videos: bite-sized investing concepts, stock-vs-stock comparisons, quarterly earnings deep dives, and searchable company breakdowns.
+        Charged Alpha uses frontier AI models to analyze fresh stock earnings data, then turns the results into educational videos: bite-sized investing concepts, stock-vs-stock comparisons, weekly earnings stories, quarterly deep dives, and searchable company breakdowns.
       </p>
     </div>
 
@@ -427,7 +446,7 @@
           </div>
         </div>
         <p class="text-slate-300 leading-relaxed mb-6">
-          The YouTube channel is the front door: fast investing lessons for discovery, then deeper stock videos for people researching a company before they invest.
+          The YouTube channel is the front door: fast investing lessons for discovery, then frontier AI stock videos for people researching a company, a sector, or an earnings story.
         </p>
         <div class="grid sm:grid-cols-2 gap-3 mb-8 text-sm">
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
@@ -439,12 +458,12 @@
             <div class="text-slate-400">Side-by-side videos that make valuation, growth, margins, and expectations easier to see.</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
-            <div class="text-amber-300 font-semibold mb-1">Earnings Deep Dives</div>
-            <div class="text-slate-400">Quarterly coverage built from the latest revenue, EPS, guidance, risks, and catalysts.</div>
+            <div class="text-amber-300 font-semibold mb-1">Earnings Stories</div>
+            <div class="text-slate-400">Weekly surprise beats, stocks that beat but still dropped, and quarterly coverage built from fresh revenue, EPS, guidance, risks, and catalysts.</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
             <div class="text-emerald-300 font-semibold mb-1">Stock Encyclopedia</div>
-            <div class="text-slate-400">A growing library designed to cover the Russell 1000 and expand across the US market.</div>
+            <div class="text-slate-400">A growing library where frontier AI workflows help cover the Russell 1000 and expand across the US market.</div>
           </div>
         </div>
         <a href="https://www.youtube.com/@ChargedAlpha" target="_blank" rel="noopener" class="btn-primary w-full justify-center" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
@@ -666,9 +685,9 @@
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16">
       <p class="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-3">Stock Encyclopedia</p>
-      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Every Russell 1000 Stock. Every Quarter.</h2>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">AI-Assisted Coverage for Every Russell 1000 Stock.</h2>
       <p class="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed">
-        A growing library where every company we cover has its own page — chart, valuation snapshot, segments, and every quarter's episode in one place. Built to be revisited as the story evolves.
+        A growing library where every company we cover has its own page: fresh earnings context, chart context, valuation snapshot, competitor comparisons, and every quarter's episode in one place.
       </p>
     </div>
 
@@ -688,13 +707,13 @@
         </div>
 
         <p class="text-slate-300 leading-relaxed mb-6">
-          Open a company's page and see the full quarterly arc — price, P/E, segments, and every episode tied to the ticker, all in one view. One stock, one page, every quarter we've covered.
+          Open a company's page and see the full quarterly arc: price, valuation, business context, competitor comparisons, and every episode tied to the ticker. One stock, one page, every quarter we've covered.
         </p>
 
         <div class="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
             <div class="text-indigo-300 font-semibold mb-1">{{ show_stats.stock_count or 0 }} Stocks Tracked</div>
-            <div>Coverage expands every earnings season, building toward full Russell 1000 depth over time.</div>
+            <div>Frontier AI workflows help expand coverage every earnings season, building toward full Russell 1000 depth over time.</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
             <div class="text-indigo-300 font-semibold mb-1">{{ show_stats.published_episode_count or 0 }} Published Episodes</div>
@@ -780,10 +799,10 @@
     <img src="/static/assets/charged-alpha-logo.png" alt="Charged Alpha logo" class="brand-logo-lg mx-auto mb-8">
     <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Built for Investors Who Research</h2>
     <p class="text-lg text-slate-400 leading-relaxed mb-6">
-      Charged Alpha Financial Media exists to make stock research easier to watch, search, and understand. We combine AI-assisted production, current market data, and repeatable research templates to create investing videos at a scale traditional finance media cannot match.
+      Charged Alpha Financial Media exists to make stock research easier to watch, search, and understand. We use frontier AI models to analyze fresh stock earnings data, current market data, and repeatable research frameworks so we can create investing videos at a scale traditional finance media cannot match.
     </p>
     <p class="text-lg text-slate-400 leading-relaxed">
-      The goal is simple: teach the concepts, compare the companies, cover earnings, and build a useful encyclopedia for anyone researching a stock.
+      The goal is simple: teach the concepts, compare the companies, follow earnings stories, and build a useful encyclopedia for anyone researching a stock.
     </p>
   </div>
 </section>
@@ -803,7 +822,7 @@
           <span class="font-extrabold text-white tracking-tight">CHARGED ALPHA</span>
         </div>
         <p class="text-sm text-slate-500 leading-relaxed max-w-sm">
-          Financial investment media for educational investing videos, stock comparisons, earnings breakdowns, and research tools.
+          Frontier AI financial media where frontier models analyze fresh earnings data for educational investing videos, stock comparisons, earnings stories, a growing stock encyclopedia, and research tools.
         </p>
       </div>
 
