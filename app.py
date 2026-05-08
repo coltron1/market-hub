@@ -293,6 +293,10 @@ def _quarter_sort_key(label):
     return (year, quarter, text)
 
 
+def _episode_sort_key(ep):
+    return (*_quarter_sort_key(ep.get("quarter")), ep.get("published_at") or "")
+
+
 def _episode_has_any_link(ep):
     return any(
         ep.get(key)
@@ -313,6 +317,7 @@ def build_show_library(episodes):
     quarter_set = set()
     published_episode_count = 0
     youtube_episode_count = 0
+    podcast_episode_count = 0
 
     for ep in episodes or []:
         ticker = (ep.get("ticker") or "").upper().strip()
@@ -324,10 +329,14 @@ def build_show_library(episodes):
         quarter_set.add(quarter)
         has_youtube = bool(ep.get("youtube_url"))
         has_any_link = bool(ep.get("has_episode") or _episode_has_any_link(ep))
+        has_podcast = bool(ep.get("spotify_url") or ep.get("podbean_url") or ep.get("apple_url") or ep.get("amazon_url"))
 
-        if has_youtube:
+        if has_any_link:
             published_episode_count += 1
+        if has_youtube:
             youtube_episode_count += 1
+        if has_podcast:
+            podcast_episode_count += 1
 
         stock = grouped.setdefault(
             slug,
@@ -345,30 +354,48 @@ def build_show_library(episodes):
             {
                 "ticker": ticker,
                 "quarter": quarter,
+                "title": ep.get("title") or ep.get("episode_title") or f"{ticker} {quarter} earnings analysis",
+                "episode_number": ep.get("episode_number") or "",
+                "published_at": ep.get("published_at") or "",
                 "status": ep.get("status") or ("youtube_live" if has_youtube else ("linked_elsewhere" if has_any_link else "planned")),
-                "has_episode": has_youtube,
+                "has_episode": has_any_link,
                 "has_any_link": has_any_link,
                 "youtube_url": ep.get("youtube_url") or "",
+                "spotify_url": ep.get("spotify_url") or "",
+                "apple_url": ep.get("apple_url") or "",
+                "google_url": ep.get("google_url") or "",
+                "iheart_url": ep.get("iheart_url") or "",
+                "amazon_url": ep.get("amazon_url") or "",
+                "podbean_url": ep.get("podbean_url") or "",
             }
         )
 
     stocks = []
     for stock in grouped.values():
-        stock["episodes"].sort(key=lambda ep: _quarter_sort_key(ep["quarter"]), reverse=True)
+        stock["episodes"].sort(key=_episode_sort_key, reverse=True)
         latest = stock["episodes"][0]
         latest_youtube = next((ep for ep in stock["episodes"] if ep.get("youtube_url")), None)
+        latest_spotify = next((ep for ep in stock["episodes"] if ep.get("spotify_url")), None)
+        latest_podcast = next((ep for ep in stock["episodes"] if ep.get("podbean_url")), None)
 
         stock["quarter_count"] = len(stock["episodes"])
-        stock["published_count"] = sum(1 for ep in stock["episodes"] if ep.get("youtube_url"))
+        stock["published_count"] = sum(1 for ep in stock["episodes"] if ep.get("has_any_link"))
+        stock["youtube_count"] = sum(1 for ep in stock["episodes"] if ep.get("youtube_url"))
+        stock["podcast_count"] = sum(1 for ep in stock["episodes"] if ep.get("podbean_url") or ep.get("spotify_url"))
         stock["latest_quarter"] = latest["quarter"]
         stock["latest_video_quarter"] = latest_youtube["quarter"] if latest_youtube else None
         stock["latest_status"] = latest_youtube["status"] if latest_youtube else latest["status"]
         stock["quarter_labels"] = [ep["quarter"] for ep in stock["episodes"]]
         stock["latest_links"] = {
             "youtube": latest_youtube.get("youtube_url") if latest_youtube else "",
+            "spotify": latest_spotify.get("spotify_url") if latest_spotify else "",
+            "podcast": latest_podcast.get("podbean_url") if latest_podcast else "",
         }
         stock["latest_youtube_url"] = latest_youtube.get("youtube_url") if latest_youtube else ""
+        stock["latest_spotify_url"] = latest_spotify.get("spotify_url") if latest_spotify else ""
+        stock["latest_podcast_url"] = latest_podcast.get("podbean_url") if latest_podcast else ""
         stock["has_youtube"] = bool(latest_youtube)
+        stock["has_podcast"] = bool(latest_spotify or latest_podcast)
         stock["latest_quarter_sort"] = _quarter_sort_key(stock["latest_video_quarter"] or stock["latest_quarter"])
         stocks.append(stock)
 
@@ -389,6 +416,7 @@ def build_show_library(episodes):
             "episode_count": len(episodes or []),
             "published_episode_count": published_episode_count,
             "youtube_episode_count": youtube_episode_count,
+            "podcast_episode_count": podcast_episode_count,
             "quarter_count": len(quarter_options),
         },
     }
@@ -936,8 +964,8 @@ def show_stock_detail_page(ticker_slug):
 
     seo_title = f"{show_stock['company']} ({show_stock['ticker']}) Stock Library — Charged Alpha"
     seo_description = (
-        f"Track {show_stock['company']} ({show_stock['ticker']}) across quarterly Charged Alpha YouTube coverage, "
-        "with live stock metrics, price chart context, competitor comparisons, and video links by quarter."
+        f"Track {show_stock['company']} ({show_stock['ticker']}) across Charged Alpha earnings episodes, "
+        "with YouTube, podcast, stock metrics, chart context, and competitor comparisons."
     )
     seo_meta = {
         "title": seo_title,

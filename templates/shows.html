@@ -98,7 +98,7 @@
         <a href="#library" class="btn-primary">Browse Stock Library</a>
         <a href="{{ podcast_platforms.youtube }}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Watch on YouTube</a>
       </div>
-      <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div class="grid sm:grid-cols-2 xl:grid-cols-5 gap-4">
         <div class="card p-5">
           <div class="text-3xl font-black text-white">{{ show_stats.stock_count or 0 }}</div>
           <div class="text-xs uppercase tracking-[.18em] text-slate-500 mt-1">Stocks tracked</div>
@@ -114,6 +114,10 @@
         <div class="card p-5">
           <div class="text-3xl font-black text-white">{{ show_stats.youtube_episode_count or 0 }}</div>
           <div class="text-xs uppercase tracking-[.18em] text-slate-500 mt-1">YouTube links live</div>
+        </div>
+        <div class="card p-5">
+          <div class="text-3xl font-black text-white">{{ show_stats.podcast_episode_count or 0 }}</div>
+          <div class="text-xs uppercase tracking-[.18em] text-slate-500 mt-1">Podcast links live</div>
         </div>
       </div>
     </div>
@@ -259,10 +263,12 @@ function platformChip(href, label, bg) {
 function renderCard(stock) {
   const latestQuarter = stock.latest_quarter || 'Quarter TBD';
   const latestVideoQuarter = stock.latest_video_quarter || 'No YouTube yet';
-  const progressText = `${stock.published_count}/${stock.quarter_count} quarters on YouTube`;
+  const progressText = `${stock.published_count}/${stock.quarter_count} episodes linked`;
   const quarterPreview = stock.quarter_labels.slice(0, 4).map(q => `<span class="quarter-chip">${q}</span>`).join('');
   const chips = [
-    platformChip(stock.latest_links.youtube, 'YouTube', '#dc2626')
+    platformChip(stock.latest_links.youtube, 'YouTube', '#dc2626'),
+    platformChip(stock.latest_links.spotify, 'Spotify', '#16a34a'),
+    platformChip(stock.latest_links.podcast, 'Podcast', '#7c3aed')
   ].join('');
 
   return `
@@ -283,18 +289,19 @@ function renderCard(stock) {
       </div>
 
       <div>
-        <div class="text-xs uppercase tracking-[.18em] text-slate-500 mb-2">Quarter coverage</div>
+        <div class="text-xs uppercase tracking-[.18em] text-slate-500 mb-2">Episode coverage</div>
         <div class="flex flex-wrap gap-2">${quarterPreview || '<span class="text-sm text-slate-500">No quarter history yet</span>'}</div>
       </div>
 
       <div>
-        <div class="text-xs uppercase tracking-[.18em] text-slate-500 mb-2">Latest YouTube link</div>
-        <div class="flex flex-wrap gap-2">${chips || '<span class="text-sm text-slate-500">No verified YouTube link yet</span>'}</div>
+        <div class="text-xs uppercase tracking-[.18em] text-slate-500 mb-2">Latest episode links</div>
+        <div class="flex flex-wrap gap-2">${chips || '<span class="text-sm text-slate-500">No verified episode link yet</span>'}</div>
       </div>
 
       <div class="mt-auto flex flex-wrap gap-3">
         <a href="/shows/${stock.slug}" class="btn-primary flex-1">Open Stock Detail</a>
         ${stock.latest_links.youtube ? `<a href="${stock.latest_links.youtube}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Latest on YouTube</a>` : ''}
+        ${!stock.latest_links.youtube && stock.latest_links.podcast ? `<a href="${stock.latest_links.podcast}" target="_blank" rel="noopener noreferrer" class="btn-secondary">Latest Podcast</a>` : ''}
       </div>
     </article>
   `;

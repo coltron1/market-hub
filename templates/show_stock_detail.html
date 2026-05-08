@@ -82,11 +82,17 @@
         </div>
         <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-4">{{ show_stock.company }}</h1>
         <p class="text-lg text-slate-400 leading-relaxed max-w-3xl mb-6">
-          Live stock metrics, chart context, a quarter-by-quarter YouTube archive, and a deeper competitor comparison so this page behaves more like an investor workspace than a flat episode link page.
+          Live stock metrics, chart context, a quarter-by-quarter episode archive, and a deeper competitor comparison so this page behaves more like an investor workspace than a flat episode link page.
         </p>
         <div class="flex flex-wrap gap-3">
           {% if show_stock.latest_youtube_url %}
           <a href="{{ show_stock.latest_youtube_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#dc2626;">Latest on YouTube</a>
+          {% endif %}
+          {% if show_stock.latest_spotify_url %}
+          <a href="{{ show_stock.latest_spotify_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#16a34a;">Latest on Spotify</a>
+          {% endif %}
+          {% if show_stock.latest_podcast_url %}
+          <a href="{{ show_stock.latest_podcast_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#7c3aed;">Latest Podcast</a>
           {% endif %}
           {% if stock_detail.website %}
           <a href="{{ stock_detail.website }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#1d4ed8;">Company Website</a>
@@ -99,11 +105,11 @@
         <p class="text-sm font-bold text-indigo-400 uppercase tracking-[.22em] mb-4">Library coverage</p>
         <div class="grid grid-cols-2 gap-4">
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
-            <div class="stat-label">Quarters tracked</div>
+            <div class="stat-label">Episodes tracked</div>
             <div class="stat-value mt-2">{{ show_stock.quarter_count }}</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
-            <div class="stat-label">YouTube quarters live</div>
+            <div class="stat-label">Episodes linked</div>
             <div class="stat-value mt-2">{{ show_stock.published_count }}</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
@@ -111,8 +117,8 @@
             <div class="text-white text-lg font-bold mt-2">{{ show_stock.latest_video_quarter or 'Pending' }}</div>
           </div>
           <div class="card p-4" style="background:#0f172a;border-color:#1e293b;">
-            <div class="stat-label">YouTube available</div>
-            <div class="stat-value mt-2">{{ 'Yes' if show_stock.has_youtube else 'No' }}</div>
+            <div class="stat-label">Podcast available</div>
+            <div class="stat-value mt-2">{{ 'Yes' if show_stock.has_podcast else 'No' }}</div>
           </div>
         </div>
       </div>
@@ -279,9 +285,9 @@
 <section class="px-6 pb-24">
   <div class="max-w-7xl mx-auto card overflow-hidden">
     <div class="p-6 md:p-8 border-b border-slate-800">
-      <p class="text-sm font-bold text-indigo-400 uppercase tracking-[.22em] mb-2">YouTube timeline</p>
-      <h2 class="text-2xl font-bold text-white">Quarterly archive for {{ show_stock.ticker }}</h2>
-      <p class="text-sm text-slate-500 mt-2">Each row is one quarter. Only the YouTube link is shown here for now.</p>
+      <p class="text-sm font-bold text-indigo-400 uppercase tracking-[.22em] mb-2">Episode timeline</p>
+      <h2 class="text-2xl font-bold text-white">Episode archive for {{ show_stock.ticker }}</h2>
+      <p class="text-sm text-slate-500 mt-2">Each row is one earnings episode with every verified platform link available.</p>
     </div>
 
     <div class="divide-y divide-slate-800">
@@ -289,22 +295,33 @@
       <div class="p-6 md:p-8 grid lg:grid-cols-[180px_1fr_auto] gap-5 items-start table-row">
         <div>
           <div class="text-white font-bold text-lg">{{ episode.quarter }}</div>
-          <div class="text-sm text-slate-500 mt-1">{{ 'Video live' if episode.youtube_url else 'Video pending' }}</div>
+          <div class="text-sm text-slate-500 mt-1">{{ 'Episode live' if episode.has_any_link else 'Episode pending' }}</div>
         </div>
         <div>
           <div class="flex flex-wrap gap-2 mb-3">
-            <span class="pill" style="background:{{ 'rgba(16,185,129,.12)' if episode.youtube_url else 'rgba(148,163,184,.12)' }};color:{{ '#6ee7b7' if episode.youtube_url else '#cbd5e1' }};">{{ 'Published' if episode.youtube_url else 'Pending link' }}</span>
+            <span class="pill" style="background:{{ 'rgba(16,185,129,.12)' if episode.has_any_link else 'rgba(148,163,184,.12)' }};color:{{ '#6ee7b7' if episode.has_any_link else '#cbd5e1' }};">{{ 'Published' if episode.has_any_link else 'Pending link' }}</span>
             {% if episode.status %}
             <span class="pill" style="background:rgba(99,102,241,.12);color:#a5b4fc;">{{ episode.status.replace('_', ' ') }}</span>
             {% endif %}
           </div>
-          <div class="text-sm text-slate-400 leading-relaxed">Quarterly earnings-analysis entry for {{ show_stock.company }}. Use the YouTube link on the right to jump straight into that quarter's video when it is live.</div>
+          <div class="text-white font-semibold leading-snug">{{ episode.title }}</div>
+          <div class="text-sm text-slate-400 leading-relaxed mt-2">Quarterly earnings-analysis entry for {{ show_stock.company }}. Use the links on the right to open the video or podcast episode.</div>
         </div>
         <div class="flex flex-wrap lg:justify-end gap-2">
           {% if episode.youtube_url %}
           <a href="{{ episode.youtube_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#dc2626;">YouTube</a>
-          {% else %}
-          <span class="text-sm text-slate-500">No verified YouTube link yet</span>
+          {% endif %}
+          {% if episode.spotify_url %}
+          <a href="{{ episode.spotify_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#16a34a;">Spotify</a>
+          {% endif %}
+          {% if episode.podbean_url %}
+          <a href="{{ episode.podbean_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#7c3aed;">Podcast</a>
+          {% endif %}
+          {% if episode.apple_url %}
+          <a href="{{ episode.apple_url }}" target="_blank" rel="noopener noreferrer" class="platform-pill" style="background:#64748b;">Apple</a>
+          {% endif %}
+          {% if not episode.has_any_link %}
+          <span class="text-sm text-slate-500">No verified episode link yet</span>
           {% endif %}
         </div>
       </div>
