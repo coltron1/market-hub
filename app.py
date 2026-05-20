@@ -422,6 +422,17 @@ def build_show_library(episodes):
     }
 
 
+def flatten_video_sections(video_sections):
+    videos = []
+    for section in video_sections or []:
+        section_title = section.get("title") or "Research Videos"
+        for video in section.get("videos") or []:
+            item = dict(video)
+            item["section_title"] = section_title
+            videos.append(item)
+    return videos
+
+
 SHOW_COMPETITOR_MAP = {
     "AAPL": ["MSFT", "GOOGL"],
     "MSFT": ["AAPL", "GOOGL"],
@@ -874,6 +885,8 @@ def health():
 def index():
     shows_data = load_shows_catalog()
     show_library = build_show_library(shows_data.get("episodes", []))
+    video_sections = shows_data.get("video_sections", [])
+    featured_videos = flatten_video_sections(video_sections)[:6]
     featured_stocks = [
         stock for stock in show_library["stocks"] if stock.get("published_count")
     ][:6]
@@ -882,6 +895,8 @@ def index():
         podcast_platforms=shows_data.get("platform_links", {}),
         show_stats=show_library.get("stats", {}),
         featured_stocks=featured_stocks,
+        featured_videos=featured_videos,
+        video_sections=video_sections,
         show_quarters=show_library.get("quarters", []),
     )
 
@@ -896,6 +911,7 @@ def shows():
         show_stats=show_library.get("stats", {}),
         show_quarters=show_library.get("quarters", []),
         show_sectors=show_library.get("sectors", []),
+        video_sections=shows_data.get("video_sections", []),
         podcast_platforms=shows_data.get("platform_links", {}),
     )
 
@@ -961,6 +977,11 @@ def show_stock_detail_page(ticker_slug):
         stock_detail.setdefault(key, None)
 
     competitor_analysis = build_stock_competitor_analysis(show_stock, stock_detail, show_library["stocks"])
+    related_videos = [
+        video
+        for video in flatten_video_sections(shows_data.get("video_sections", []))
+        if show_stock["ticker"] in [ticker.upper() for ticker in video.get("tickers", [])]
+    ][:6]
 
     seo_title = f"{show_stock['company']} ({show_stock['ticker']}) Stock Library — Charged Alpha"
     seo_description = (
@@ -983,6 +1004,7 @@ def show_stock_detail_page(ticker_slug):
         show_stock=show_stock,
         stock_detail=stock_detail,
         competitor_analysis=competitor_analysis,
+        related_videos=related_videos,
         chart_symbol=show_stock["yf_symbol"],
         podcast_platforms=shows_data.get("platform_links", {}),
         seo_meta=seo_meta,
